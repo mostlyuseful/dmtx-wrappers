@@ -19,11 +19,23 @@
 
 # $Id$
 
-from distutils.core import setup, Extension
+try:
+    from setuptools import setup, Extension
+except ImportError:
+    from distutils.core import setup, Extension
+import os
+
+include_dirs = ['/usr/local/include']
+if 'DMTX_INCLUDE_DIR' in os.environ:
+    include_dirs = [os.path.expandvars(os.path.expanduser(os.environ['DMTX_INCLUDE_DIR']))] + include_dirs
+    
+library_dirs = ['/usr/local/lib']
+if 'DMTX_LIBRARY_DIR' in os.environ:
+    library_dirs = [os.path.expandvars(os.path.expanduser(os.environ['DMTX_LIBRARY_DIR']))] + library_dirs
 
 mod = Extension( '_pydmtx',
-                 include_dirs = ['/usr/local/include'],
-                 library_dirs = ['/usr/local/lib'],
+                 include_dirs = include_dirs,
+                 library_dirs = library_dirs,
                  libraries = ['dmtx'],
                  sources = ['pydmtxmodule.c'] )
 
