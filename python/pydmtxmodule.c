@@ -274,11 +274,11 @@ dmtx_decode(PyObject *self, PyObject *arglist, PyObject *kwargs)
          dmtxMatrix3VMultiplyBy(&p11, reg->fit2raw);
          dmtxMatrix3VMultiplyBy(&p01, reg->fit2raw);
 
-         PyList_Append(output, Py_BuildValue("s#((ii)(ii)(ii)(ii))", msg->output, msg->outputIdx,
-               (int)((shrink * p00.X) + 0.5), height - 1 - (int)((shrink * p00.Y) + 0.5),
-               (int)((shrink * p10.X) + 0.5), height - 1 - (int)((shrink * p10.Y) + 0.5),
-               (int)((shrink * p11.X) + 0.5), height - 1 - (int)((shrink * p11.Y) + 0.5),
-               (int)((shrink * p01.X) + 0.5), height - 1 - (int)((shrink * p01.Y) + 0.5)));
+         PyList_Append(output, Py_BuildValue("s#((dd)(dd)(dd)(dd))", msg->output, msg->outputIdx,
+               shrink * p00.X, height - 1 - (shrink * p00.Y),
+               shrink * p10.X, height - 1 - (shrink * p10.Y),
+               shrink * p11.X, height - 1 - (shrink * p11.Y),
+               shrink * p01.X, height - 1 - (shrink * p01.Y)));
 
          Py_INCREF(output);
          dmtxMessageDestroy(&msg);
